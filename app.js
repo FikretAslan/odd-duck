@@ -1,8 +1,8 @@
 // DOM Nodes
-let goatContainer = document.querySelector("section");
-let image1 = document.querySelector("section img:first-child");
-let image2 = document.querySelector("section img:nth-child(2)");
-let image3 = document.querySelector("section img:nth-child(3)");
+let duckContainer = document.querySelector("duckContainer");
+let image1 = document.querySelector("Image1");
+let image2 = document.querySelector("Image2");
+let image3 = document.querySelector("Image3");
 
 // keep each product in an object
 function duckProd(name, src) {
@@ -17,9 +17,9 @@ function getRandomIndex() {
   return Math.floor(Math.random() * allDuckProducts.length);
 }
 
-// function to render 2 random products
+// function to render 3 random products
 function renderProducts() {
-  // get 2 random indexes from our product array
+  // get 3 random indexes from our product array
   let prod1Index = getRandomIndex();
   let prod2Index = getRandomIndex();
   let prod3Index = getRandomIndex();
@@ -29,7 +29,7 @@ function renderProducts() {
     prod2Index = getRandomIndex();
     prod3Index = getRandomIndex();
   }
-  // change the src of our 2 images
+  // change the src of our 3 images
   image1.src = allDuckProducts[prod1Index].src;
   image2.src = allDuckProducts[prod2Index].src;
   image3.src = allDuckProducts[prod3Index].src;
@@ -43,9 +43,9 @@ function renderProducts() {
   allDuckProducts[prod3Index].views++;
 }
 
-// handle the goat being clicked
+// handle being clicked
 function handleprodClick(event) {
-  // get the name of the goat we just clicked
+  // get the name of the prod we just clicked
   let clickedProd = event.target.alt;
 
   // check if the click is on an image
@@ -60,7 +60,7 @@ function handleprodClick(event) {
   // loop through allDuckProducts
   for (let i = 0; i < allDuckProducts.length; i++) {
     // check if the name of the prod in the array, matches the alt tag of our image
-    if (clickedGoat === allDuckProducts[i].name) {
+    if (clickedProd === allDuckProducts[i].name) {
       // increase the number of clicks
       allGoats[i].clicks++;
       // stop the for loop because we found the prod
@@ -70,7 +70,7 @@ function handleprodClick(event) {
 }
 
 // make the products
-const allDuckProducts = [
+const duckProd = [
   new Prod("bag", "./Asset/bag.jpg"),
   new Prod("banana", "./Asset/banana.jpg"),
   new Prod("bathroom", "./Asset/bathroom.jpg"),
