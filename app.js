@@ -1,8 +1,13 @@
 // DOM Nodes
-let duckContainer = document.querySelector("duckContainer");
-let image1 = document.querySelector("Image1");
-let image2 = document.querySelector("Image2");
-let image3 = document.querySelector("Image3");
+let duckContainer = document.querySelector(".duckContainer");
+let image1 = document.querySelector(".Image1");
+let image2 = document.querySelector(".Image2");
+let image3 = document.querySelector(".Image3");
+
+// user clicks 25
+
+let userClicks = 0;
+let maxClicks = 25;
 
 // keep each product in an object
 function duckProd(name, src) {
@@ -25,7 +30,11 @@ function renderProducts() {
   let prod3Index = getRandomIndex();
 
   // prevent the two images being the same
-  while ((prod1Index === prod2Index) === prod3Index) {
+  while (
+    prod1Index === prod2Index ||
+    prod1Index === prod3Index ||
+    prod2Index === prod3Index
+  ) {
     prod2Index = getRandomIndex();
     prod3Index = getRandomIndex();
   }
@@ -37,7 +46,7 @@ function renderProducts() {
   image2.alt = allDuckProducts[prod2Index].name;
   image3.alt = allDuckProducts[prod3Index].name;
 
-  // increase the goats views
+  // increase the views
   allDuckProducts[prod1Index].views++;
   allDuckProducts[prod2Index].views++;
   allDuckProducts[prod3Index].views++;
@@ -53,7 +62,7 @@ function handleprodClick(event) {
     alert("Please click on an image");
   } else {
     // render more
-    renderProd();
+    renderProducts();
   }
 
   // increase the clicks of the prod
@@ -62,7 +71,7 @@ function handleprodClick(event) {
     // check if the name of the prod in the array, matches the alt tag of our image
     if (clickedProd === allDuckProducts[i].name) {
       // increase the number of clicks
-      allGoats[i].clicks++;
+      allDuckProducts[i].clicks++;
       // stop the for loop because we found the prod
       break;
     }
@@ -70,27 +79,49 @@ function handleprodClick(event) {
 }
 
 // make the products
-const duckProd = [
-  new Prod("bag", "./Asset/bag.jpg"),
-  new Prod("banana", "./Asset/banana.jpg"),
-  new Prod("bathroom", "./Asset/bathroom.jpg"),
-  new Prod("bubblegum", "./Asset/bubblegum.jpg"),
-  new Prod("chair", "./Asset/chair.jpg"),
-  new Prod("cthulhu", "./Asset/cthulhu.jpg"),
-  new Prod("dog-duck", "./Asset/dog-duck.jpg"),
-  new Prod("dragon", "./Asset/dragon.jpg"),
-  new Prod("pen", "./Asset/pen.jpg"),
-  new Prod("pet sweep", "./Asset/pet-sweep.jpg"),
-  new Prod("scissors", "./Asset/scissors.jpg"),
-  new Prod("shark", "./Asset/shark.jpg"),
-  new Prod("sweep", "./Asset/sweep.png"),
-  new Prod("tauntaun", "./Asset/tauntaun.jpg"),
-  new Prod("unicorn", "./Asset/unicorn.jpg"),
-  new Prod("water can", "./Asset/water-can.jpg"),
-  new Prod("wine glass", "./Asset/wine-glass.jpg"),
+const allDuckProducts = [
+  new duckProd("bag", "./Asset/bag.jpg"),
+  new duckProd("banana", "./Asset/banana.jpg"),
+  new duckProd("bathroom", "./Asset/bathroom.jpg"),
+  new duckProd("bubblegum", "./Asset/bubblegum.jpg"),
+  new duckProd("chair", "./Asset/chair.jpg"),
+  new duckProd("cthulhu", "./Asset/cthulhu.jpg"),
+  new duckProd("dog-duck", "./Asset/dog-duck.jpg"),
+  new duckProd("dragon", "./Asset/dragon.jpg"),
+  new duckProd("pen", "./Asset/pen.jpg"),
+  new duckProd("pet sweep", "./Asset/pet-sweep.jpg"),
+  new duckProd("scissors", "./Asset/scissors.jpg"),
+  new duckProd("shark", "./Asset/shark.jpg"),
+  new duckProd("sweep", "./Asset/sweep.png"),
+  new duckProd("tauntaun", "./Asset/tauntaun.jpg"),
+  new duckProd("unicorn", "./Asset/unicorn.jpg"),
+  new duckProd("water can", "./Asset/water-can.jpg"),
+  new duckProd("wine glass", "./Asset/wine-glass.jpg"),
 ];
 
 // add the event listener
-prodContainer.addEventListener("click", handleprodClick);
+duckContainer.addEventListener("click", handleprodClick);
 
-renderProd();
+renderProducts();
+
+image1.addEventListener("click", handleprodClick);
+image2.addEventListener("click", handleprodClick);
+image3.addEventListener("click", handleprodClick);
+
+function showResults() {
+  const results = document.getElementById("results");
+
+  // loop through products and make an li for each one
+
+  for (let i = 0; i < allDuckProducts.length; i++) {
+    const li = document.createElement("li");
+    const products = allDuckProducts[i];
+    li.textContent = `${products.name} was viewed ${products.views} times and clicked ${products.clicks} times`;
+    viewResults.appendChild(li);
+  }
+}
+
+const viewResults = document.getElementById("view-results");
+viewResults.addEventListener("click", showResults);
+
+renderProducts();
