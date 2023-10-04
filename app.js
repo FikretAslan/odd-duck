@@ -1,13 +1,17 @@
 // DOM Nodes
+const context = document.getElementById("myChart");
 let duckContainer = document.querySelector(".duckContainer");
 let image1 = document.querySelector(".Image1");
 let image2 = document.querySelector(".Image2");
 let image3 = document.querySelector(".Image3");
+const productNames = [];
+const productViews = [];
+const productClicks = [];
 
 // user clicks 25
 
 let userClicks = 0;
-let maxClicks = 25;
+const maxClicks = 25;
 
 // keep each product in an object
 function duckProd(name, src) {
@@ -17,6 +21,27 @@ function duckProd(name, src) {
   this.clicks = 0;
 }
 
+// make the products
+const allDuckProducts = [
+  new duckProd("bag", "./Asset/bag.jpg"),
+  new duckProd("banana", "./Asset/banana.jpg"),
+  new duckProd("bathroom", "./Asset/bathroom.jpg"),
+  new duckProd("bubblegum", "./Asset/bubblegum.jpg"),
+  new duckProd("chair", "./Asset/chair.jpg"),
+  new duckProd("cthulhu", "./Asset/cthulhu.jpg"),
+  new duckProd("dog-duck", "./Asset/dog-duck.jpg"),
+  new duckProd("dragon", "./Asset/dragon.jpg"),
+  new duckProd("pen", "./Asset/pen.jpg"),
+  new duckProd("pet sweep", "./Asset/pet-sweep.jpg"),
+  new duckProd("scissors", "./Asset/scissors.jpg"),
+  new duckProd("shark", "./Asset/shark.jpg"),
+  new duckProd("sweep", "./Asset/sweep.png"),
+  new duckProd("tauntaun", "./Asset/tauntaun.jpg"),
+  new duckProd("unicorn", "./Asset/unicorn.jpg"),
+  new duckProd("water can", "./Asset/water-can.jpg"),
+  new duckProd("wine glass", "./Asset/wine-glass.jpg"),
+];
+
 // function to choose a random product
 function getRandomIndex() {
   return Math.floor(Math.random() * allDuckProducts.length);
@@ -25,6 +50,7 @@ function getRandomIndex() {
 // function to render 3 random products
 function renderProducts() {
   // get 3 random indexes from our product array
+
   let prod1Index = getRandomIndex();
   let prod2Index = getRandomIndex();
   let prod3Index = getRandomIndex();
@@ -35,6 +61,7 @@ function renderProducts() {
     prod1Index === prod3Index ||
     prod2Index === prod3Index
   ) {
+    prod1Index = getRandomIndex();
     prod2Index = getRandomIndex();
     prod3Index = getRandomIndex();
   }
@@ -54,6 +81,13 @@ function renderProducts() {
 
 // handle being clicked
 function handleprodClick(event) {
+  if (userClicks === maxClicks) {
+    alert("You have run out of votes");
+    return;
+  }
+
+  userClicks++;
+
   // get the name of the prod we just clicked
   let clickedProd = event.target.alt;
 
@@ -78,29 +112,8 @@ function handleprodClick(event) {
   }
 }
 
-// make the products
-const allDuckProducts = [
-  new duckProd("bag", "./Asset/bag.jpg"),
-  new duckProd("banana", "./Asset/banana.jpg"),
-  new duckProd("bathroom", "./Asset/bathroom.jpg"),
-  new duckProd("bubblegum", "./Asset/bubblegum.jpg"),
-  new duckProd("chair", "./Asset/chair.jpg"),
-  new duckProd("cthulhu", "./Asset/cthulhu.jpg"),
-  new duckProd("dog-duck", "./Asset/dog-duck.jpg"),
-  new duckProd("dragon", "./Asset/dragon.jpg"),
-  new duckProd("pen", "./Asset/pen.jpg"),
-  new duckProd("pet sweep", "./Asset/pet-sweep.jpg"),
-  new duckProd("scissors", "./Asset/scissors.jpg"),
-  new duckProd("shark", "./Asset/shark.jpg"),
-  new duckProd("sweep", "./Asset/sweep.png"),
-  new duckProd("tauntaun", "./Asset/tauntaun.jpg"),
-  new duckProd("unicorn", "./Asset/unicorn.jpg"),
-  new duckProd("water can", "./Asset/water-can.jpg"),
-  new duckProd("wine glass", "./Asset/wine-glass.jpg"),
-];
-
 // add the event listener
-duckContainer.addEventListener("click", handleprodClick);
+// duckContainer.addEventListener("click", handleprodClick);
 
 renderProducts();
 
@@ -117,11 +130,36 @@ function showResults() {
     const li = document.createElement("li");
     const products = allDuckProducts[i];
     li.textContent = `${products.name} was viewed ${products.views} times and clicked ${products.clicks} times`;
-    viewResults.appendChild(li);
-  }
-}
 
+    viewResults.appendChild(li);
+    productNames.push(products.name);
+    productViews.push(products.views);
+    productClicks.push(products.clicks);
+  }
+  new Chart(context, {
+    type: "bar",
+    data: {
+      labels: productNames,
+      datasets: [
+        {
+          label: "# of clicks",
+          data: productClicks,
+          borderWidth: 1,
+        },
+        {
+          label: "# of views",
+          data: productViews,
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+}
 const viewResults = document.getElementById("view-results");
 viewResults.addEventListener("click", showResults);
 
 renderProducts();
+
+// function to create a new chart
+
+// chart
