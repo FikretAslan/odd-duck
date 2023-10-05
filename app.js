@@ -16,36 +16,36 @@ const maxClicks = 25;
 const allDuckProducts = [];
 
 // keep each product in an object
-function duckProd(name, src, views, clicks) {
+function duckProd(name, views, clicks) {
   this.name = name;
   this.src = `./Asset/${name}.jpg`;
-  this.views = 0;
-  this.clicks = 0;
+  this.views = views;
+  this.clicks = clicks;
 
   allDuckProducts.push(this);
 }
 
 // make the products
 if (localStorage.getItem("allDuckProducts") === null) {
-  new duckProd("bag", "./Asset/bag.jpg", 0, 0);
-  new duckProd("banana", "./Asset/banana.jpg", 0, 0);
-  new duckProd("bathroom", "./Asset/bathroom.jpg", 0, 0);
-  new duckProd("bubblegum", "./Asset/bubblegum.jpg", 0, 0);
-  new duckProd("chair", "./Asset/chair.jpg", 0, 0);
-  new duckProd("cthulhu", "./Asset/cthulhu.jpg", 0, 0);
-  new duckProd("dog-duck", "./Asset/dog-duck.jpg", 0, 0);
-  new duckProd("dragon", "./Asset/dragon.jpg", 0, 0);
-  new duckProd("pen", "./Asset/pen.jpg", 0, 0);
-  new duckProd("pet sweep", "./Asset/pet-sweep.jpg", 0, 0);
-  new duckProd("scissors", "./Asset/scissors.jpg", 0, 0);
-  new duckProd("shark", "./Asset/shark.jpg", 0, 0);
-  new duckProd("sweep", "./Asset/sweep.png", 0, 0);
-  new duckProd("tauntaun", "./Asset/tauntaun.jpg", 0, 0);
-  new duckProd("unicorn", "./Asset/unicorn.jpg", 0, 0);
-  new duckProd("water can", "./Asset/water-can.jpg", 0, 0);
-  new duckProd("wine glass", "./Asset/wine-glass.jpg", 0, 0);
+  new duckProd("bag", 0, 0);
+  new duckProd("banana", 0, 0);
+  new duckProd("bathroom", 0, 0);
+  new duckProd("bubblegum", 0, 0);
+  new duckProd("chair", 0, 0);
+  new duckProd("cthulhu", 0, 0);
+  new duckProd("dog-duck", 0, 0);
+  new duckProd("dragon", 0, 0);
+  new duckProd("pen", 0, 0);
+  new duckProd("pet-sweep", 0, 0);
+  new duckProd("scissors", 0, 0);
+  new duckProd("shark", 0, 0);
+  new duckProd("sweep", 0, 0);
+  new duckProd("tauntaun", 0, 0);
+  new duckProd("unicorn", 0, 0);
+  new duckProd("water-can", 0, 0);
+  new duckProd("wine-glass", 0, 0);
 } else {
-  const productsLS = JSON.parse(localStorage.getItem("allDuckProducts "));
+  const productsLS = JSON.parse(localStorage.getItem("allDuckProducts"));
   for (let i = 0; i < productsLS.length; i++) {
     new duckProd(productsLS[i].name, productsLS[i].views, productsLS[i].clicks);
   }
@@ -91,7 +91,7 @@ function renderProducts() {
 function handleprodClick(event) {
   if (userClicks === maxClicks) {
     alert("You have run out of votes");
-    localStorage.setItem("products", JSON.stringify(products));
+    localStorage.setItem("allDuckProducts", JSON.stringify(allDuckProducts));
     return;
   }
 
@@ -130,40 +130,40 @@ image1.addEventListener("click", handleprodClick);
 image2.addEventListener("click", handleprodClick);
 image3.addEventListener("click", handleprodClick);
 
-function showResults() {
-  const results = document.getElementById("results");
+// function showResults() {
+//   const results = document.getElementById("results");
 
-  // loop through products and make an li for each one
+//   // loop through products and make an li for each one
 
-  for (let i = 0; i < allDuckProducts.length; i++) {
-    const li = document.createElement("li");
-    const products = allDuckProducts[i];
-    li.textContent = `${products.name} was viewed ${products.views} times and clicked ${products.clicks} times`;
+//   for (let i = 0; i < allDuckProducts.length; i++) {
+//     const li = document.createElement("li");
+//     const products = allDuckProducts[i];
+//     li.textContent = `${products.name} was viewed ${products.views} times and clicked ${products.clicks} times`;
 
-    viewResults.appendChild(li);
-    productNames.push(products.name);
-    productViews.push(products.views);
-    productClicks.push(products.clicks);
-  }
-  new Chart(context, {
-    type: "bar",
-    data: {
-      labels: productNames,
-      datasets: [
-        {
-          label: "# of clicks",
-          data: productClicks,
-          borderWidth: 1,
-        },
-        {
-          label: "# of views",
-          data: productViews,
-          borderWidth: 1,
-        },
-      ],
-    },
-  });
-}
+//     viewResults.appendChild(li);
+//     productNames.push(products.name);
+//     productViews.push(products.views);
+//     productClicks.push(products.clicks);
+//   }
+//   new Chart(context, {
+//     type: "bar",
+//     data: {
+//       labels: productNames,
+//       datasets: [
+//         {
+//           label: "# of clicks",
+//           data: productClicks,
+//           borderWidth: 1,
+//         },
+//         {
+//           label: "# of views",
+//           data: productViews,
+//           borderWidth: 1,
+//         },
+//       ],
+//     },
+//   });
+// }
 const viewResults = document.getElementById("view-results");
 viewResults.addEventListener("click", showResults);
 
