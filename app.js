@@ -13,35 +13,43 @@ const productClicks = [];
 let userClicks = 0;
 const maxClicks = 25;
 
+const allDuckProducts = [];
+
 // keep each product in an object
-function duckProd(name, src) {
+function duckProd(name, src, views, clicks) {
   this.name = name;
-  this.src = src;
+  this.src = `./Asset/${name}.jpg`;
   this.views = 0;
   this.clicks = 0;
+
+  allDuckProducts.push(this);
 }
 
 // make the products
-const allDuckProducts = [
-  new duckProd("bag", "./Asset/bag.jpg"),
-  new duckProd("banana", "./Asset/banana.jpg"),
-  new duckProd("bathroom", "./Asset/bathroom.jpg"),
-  new duckProd("bubblegum", "./Asset/bubblegum.jpg"),
-  new duckProd("chair", "./Asset/chair.jpg"),
-  new duckProd("cthulhu", "./Asset/cthulhu.jpg"),
-  new duckProd("dog-duck", "./Asset/dog-duck.jpg"),
-  new duckProd("dragon", "./Asset/dragon.jpg"),
-  new duckProd("pen", "./Asset/pen.jpg"),
-  new duckProd("pet sweep", "./Asset/pet-sweep.jpg"),
-  new duckProd("scissors", "./Asset/scissors.jpg"),
-  new duckProd("shark", "./Asset/shark.jpg"),
-  new duckProd("sweep", "./Asset/sweep.png"),
-  new duckProd("tauntaun", "./Asset/tauntaun.jpg"),
-  new duckProd("unicorn", "./Asset/unicorn.jpg"),
-  new duckProd("water can", "./Asset/water-can.jpg"),
-  new duckProd("wine glass", "./Asset/wine-glass.jpg"),
-];
-
+if (localStorage.getItem("allDuckProducts") === null) {
+  new duckProd("bag", "./Asset/bag.jpg", 0, 0);
+  new duckProd("banana", "./Asset/banana.jpg", 0, 0);
+  new duckProd("bathroom", "./Asset/bathroom.jpg", 0, 0);
+  new duckProd("bubblegum", "./Asset/bubblegum.jpg", 0, 0);
+  new duckProd("chair", "./Asset/chair.jpg", 0, 0);
+  new duckProd("cthulhu", "./Asset/cthulhu.jpg", 0, 0);
+  new duckProd("dog-duck", "./Asset/dog-duck.jpg", 0, 0);
+  new duckProd("dragon", "./Asset/dragon.jpg", 0, 0);
+  new duckProd("pen", "./Asset/pen.jpg", 0, 0);
+  new duckProd("pet sweep", "./Asset/pet-sweep.jpg", 0, 0);
+  new duckProd("scissors", "./Asset/scissors.jpg", 0, 0);
+  new duckProd("shark", "./Asset/shark.jpg", 0, 0);
+  new duckProd("sweep", "./Asset/sweep.png", 0, 0);
+  new duckProd("tauntaun", "./Asset/tauntaun.jpg", 0, 0);
+  new duckProd("unicorn", "./Asset/unicorn.jpg", 0, 0);
+  new duckProd("water can", "./Asset/water-can.jpg", 0, 0);
+  new duckProd("wine glass", "./Asset/wine-glass.jpg", 0, 0);
+} else {
+  const productsLS = JSON.parse(localStorage.getItem("allDuckProducts "));
+  for (let i = 0; i < productsLS.length; i++) {
+    new duckProd(productsLS[i].name, productsLS[i].views, productsLS[i].clicks);
+  }
+}
 // function to choose a random product
 function getRandomIndex() {
   return Math.floor(Math.random() * allDuckProducts.length);
@@ -83,6 +91,7 @@ function renderProducts() {
 function handleprodClick(event) {
   if (userClicks === maxClicks) {
     alert("You have run out of votes");
+    localStorage.setItem("products", JSON.stringify(products));
     return;
   }
 
